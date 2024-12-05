@@ -1,0 +1,25 @@
+#include "InputParser.h"
+#include <string>
+
+InputParser::InputParser(int argc, const char** argv) :
+	mBegin{ argv }, mEnd{ argc + argv } {}
+
+std::string_view InputParser::getCmdOption(std::string_view option) const {
+    auto itr = std::find(mBegin, mEnd, option);
+    if (itr != mEnd && ++itr != mEnd) {
+        return *itr;
+    }
+    return "";
+}
+
+std::string_view InputParser::getCmdOptionOrDefaultVal(std::string_view option, std::string_view defaultVal) const {
+    auto val = getCmdOption(option);
+    if (val == "") {
+        return defaultVal;
+    }
+    return val;
+}
+
+bool InputParser::cmdOptionExists(std::string_view option) const {
+    return std::find(mBegin, mEnd, option) != mEnd;
+}
