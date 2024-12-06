@@ -7,10 +7,9 @@ void solveDay1Part1(std::istream& input, std::ostream& output) {
 	std::vector<int> list1;
 	std::vector<int> list2;
 	
-	while (true) {
+	while (!input.eof()) {
 		int num;
 		input >> num;
-		if (input.eof()) break;
 		list1.push_back(num);
 		input >> num;
 		list2.push_back(num);

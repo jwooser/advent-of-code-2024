@@ -129,16 +129,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Day2.cpp" />
     <ClCompile Include="InputParser.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Day1.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Day1.h" />
+    <ClInclude Include="Day2.h" />
     <ClInclude Include="InputParser.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="inputs\day1-input.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
