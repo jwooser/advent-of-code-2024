@@ -111,6 +111,7 @@ namespace {
 		return { std::move(grid), pos };
 	}
 
+	// Slow and fast pointer algorithm for detecting cycles
 	bool isPathLoop(const Grid& grid, GuardState guard) {
 		GuardState fast = guard;
 		GuardState slow = guard;
