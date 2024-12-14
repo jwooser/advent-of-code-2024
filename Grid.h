@@ -78,6 +78,14 @@ public:
 		return false;
 	}
 
+	void forEachCell(std::function<void(Vector2, const T&)> fn) const {
+		for (int y = 0; y < getHeight(); ++y) {
+			for (int x = 0; x < getWidth(); ++x) {
+				fn({ x, y }, at({x, y}));
+			}
+		}
+	}
+
 private:
 	size_t width = 0;
 	size_t height = 0;

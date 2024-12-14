@@ -5,7 +5,6 @@
 #include "StringUtils.h"
 
 namespace {
-
 	bool solutionExists(long long testVal, 
 						const std::vector<long long>& operands, 
 						long long val = 0, 
