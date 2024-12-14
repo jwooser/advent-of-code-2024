@@ -6,9 +6,6 @@
 
 void solveDay5Part1(std::istream& input, std::ostream& output) {
 	std::string line;
-	auto stoiFunc = [](const std::string& str) {
-		return std::stoi(str);
-	};
 	AdjList graph;
 	while (getline(input, line)) {
 		if (line == "") {
@@ -31,9 +28,6 @@ void solveDay5Part1(std::istream& input, std::ostream& output) {
 
 void solveDay5Part2(std::istream& input, std::ostream& output) {
 	std::string line;
-	auto stoiFunc = [](const std::string& str) {
-		return std::stoi(str);
-	};
 	AdjList graph;
 	while (getline(input, line)) {
 		if (line == "") {
