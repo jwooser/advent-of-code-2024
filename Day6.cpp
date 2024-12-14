@@ -4,71 +4,28 @@
 #include <vector>
 #include <bitset>
 #include <string>
-#include <set>;
+#include <set>
+#include "Vector2.h"
+#include "Grid.h"
 
 namespace {
-	enum GridState {
+	enum State {
 		Unvisited,
 		Visited,
 		Blocked
 	};
 
-	using Grid = std::vector<std::vector<GridState>>;
-
-	enum Direction {
-		Up,
-		Right,
-		Down,
-		Left
-	};
-
-	struct Vector2 {
-		int x;
-		int y;
-
-		Vector2 operator+(const Vector2& other) const {
-			return { x + other.x, y + other.y };
-		}
-
-		void operator+=(const Vector2& other) {
-			*this = *this + other;
-		}
-
-		bool operator==(const Vector2& other) const {
-			return x == other.x && y == other.y;
-		}
-	};
-
-	Vector2 dirToVec2(Direction dir) {
-		std::array<Vector2, 4> dirVectors = {
-			Vector2{0, -1},
-			Vector2{1, 0},
-			Vector2{0, 1},
-			Vector2{-1, 0},
-		};
-
-		return dirVectors[dir];
-	}
-
-	bool isInsideGrid(const Grid& grid, Vector2 pos) {
-		int height = grid.size();
-		int width = grid[0].size();
-		return pos.x >= 0 && pos.x < width && pos.y >= 0 && pos.y < height;
-	}
-
-	struct GuardState {
+	struct Guard {
 		Vector2 pos;
-		Direction dir;
-
-		bool advance(const Grid& grid) {
-			int height = grid.size();
-			int width = grid[0].size();
+		Direction4 dir;
+		
+		bool advance(const Grid<State>& grid) {
 			Vector2 posInFront = getPosInFront();
-			if (!isInsideGrid(grid, posInFront)) {
+			if (!grid.inBounds(posInFront)) {
 				return false; // advanced out of grid
 			}
-			if (grid[posInFront.y][posInFront.x] == Blocked) {
-				dir = Direction((dir + 1) % 4); // turn 90 deg
+			if (grid.at(posInFront) == Blocked) {
+				dir = Direction4((dir + 1) % 4); // turn 90 deg
 			}
 			else {
 				pos = posInFront; // move forward
@@ -80,41 +37,15 @@ namespace {
 			return pos + dirToVec2(dir);
 		}
 
-		bool operator==(const GuardState& other) const {
+		bool operator==(const Guard& other) const {
 			return pos == other.pos && dir == other.dir;
 		}
 	};
 
-	std::pair<Grid, Vector2> parseGrid(std::istream& input) {
-		std::vector<std::vector<GridState>> grid;
-		Vector2 pos;
-		std::string line;
-		while (getline(input, line)) {
-			int x = 0;
-			int y = grid.size();
-			grid.push_back({});
-
-			for (char c : line) {
-				if (c == '.') {
-					grid[y].push_back(Unvisited);
-				}
-				else if (c == '#') {
-					grid[y].push_back(Blocked);
-				}
-				else {
-					grid[y].push_back(Visited);
-					pos = { x, y };
-				}
-				++x;
-			}
-		}
-		return { std::move(grid), pos };
-	}
-
 	// Slow and fast pointer algorithm for detecting cycles
-	bool isPathLoop(const Grid& grid, GuardState guard) {
-		GuardState fast = guard;
-		GuardState slow = guard;
+	bool isPathLoop(const Grid<State>& grid, Guard guard) {
+		Guard fast = guard;
+		Guard slow = guard;
 		while (true) {
 			fast.advance(grid);
 			if (!fast.advance(grid)) {
@@ -126,42 +57,55 @@ namespace {
 			}
 		}
 	}
-};
+
+	State stateProjection(char c) {
+		if (c == '.') {
+			return Unvisited;
+		}
+		else if (c == '#') {
+			return Blocked;
+		}
+		else {
+			return Visited;
+		}
+	}
+}
 
 void solveDay6Part1(std::istream& input, std::ostream& output) {
-	auto [grid, pos] = parseGrid(input);
-	GuardState guard{ pos, Up };
+	auto grid = parseGrid<State>(input, stateProjection);
+
+	Vector2 pos = grid.find(Visited).value();
+	Guard guard{ pos, Up };
 
 	while (guard.advance(grid)) {
-		grid[guard.pos.y][guard.pos.x] = Visited;
+		grid.at(guard.pos) = Visited;
 	}
 
 	int totalVisited = 0;
-	for (auto& row : grid) {
-		for (auto cell : row) {
-			totalVisited += (cell == Visited);
-		}
+	for (auto& cell : grid.span()) {
+		totalVisited += (cell == Visited);
 	}
 	output << totalVisited;
 }
 
 void solveDay6Part2(std::istream& input, std::ostream& output) {
-	auto [grid, pos] = parseGrid(input);
-	GuardState guard{ pos, Up };
+	auto grid = parseGrid<State>(input, stateProjection);
+	Vector2 pos = grid.find(Visited).value();
+	Guard guard{ pos, Up };
+
 	std::set<std::pair<int, int>> obs;
 	do {
-		grid[guard.pos.y][guard.pos.x] = Visited;
+		grid.at(guard.pos) = Visited;
 		Vector2 posInFront = guard.getPosInFront();
-		if (!isInsideGrid(grid, posInFront)) {
+		if (!grid.inBounds(posInFront)) {
 			continue;
 		}
-		if (grid[posInFront.y][posInFront.x] == Unvisited && 
-			!obs.contains({ posInFront.y, posInFront.x })) {
-			grid[posInFront.y][posInFront.x] = Blocked;
+		if (grid.at(posInFront) == Unvisited && !obs.contains(posInFront.toPair())) {
+			grid.at(posInFront) = Blocked;
 			if (isPathLoop(grid, guard)) {
-				obs.insert({ posInFront.y, posInFront.x });
+				obs.insert(posInFront.toPair());
 			}
-			grid[posInFront.y][posInFront.x] = Unvisited;
+			grid.at(posInFront) = Unvisited;
 		}
 	} while (guard.advance(grid));
 	output << obs.size();

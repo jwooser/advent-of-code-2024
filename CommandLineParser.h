@@ -3,9 +3,9 @@
 #include <string_view>
 #include <algorithm>
 
-class InputParser {
+class CommandLineParser {
 public:
-    InputParser(int argc, const char** argv);
+    CommandLineParser(int argc, const char** argv);
 
     std::string_view getCmdOption(std::string_view option) const;
     

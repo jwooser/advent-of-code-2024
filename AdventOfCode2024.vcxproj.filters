@@ -9,42 +9,78 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
+    <Filter Include="Header Files\Days">
+      <UniqueIdentifier>{60a375dd-beb5-4daa-9561-d918c7130b81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utils">
+      <UniqueIdentifier>{e71adf8f-44e2-450d-ab19-edde187c77ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Days">
+      <UniqueIdentifier>{5b56adf6-6612-4b8e-bdb9-2c849c64152a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utils">
+      <UniqueIdentifier>{da10c122-5d53-48be-bf91-5962da1a9f02}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Day1.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="InputParser.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Days</Filter>
     </ClCompile>
     <ClCompile Include="Day2.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Day6.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Days</Filter>
     </ClCompile>
     <ClCompile Include="Day3.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Days</Filter>
+    </ClCompile>
+    <ClCompile Include="Day4.cpp">
+      <Filter>Source Files\Days</Filter>
+    </ClCompile>
+    <ClCompile Include="Day5.cpp">
+      <Filter>Source Files\Days</Filter>
+    </ClCompile>
+    <ClCompile Include="Day6.cpp">
+      <Filter>Source Files\Days</Filter>
+    </ClCompile>
+    <ClCompile Include="CommandLineParser.cpp">
+      <Filter>Source Files\Utils</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Day1.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="InputParser.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Days</Filter>
     </ClInclude>
     <ClInclude Include="Day2.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Day6.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Days</Filter>
     </ClInclude>
     <ClInclude Include="Day3.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Days</Filter>
+    </ClInclude>
+    <ClInclude Include="Day4.h">
+      <Filter>Header Files\Days</Filter>
+    </ClInclude>
+    <ClInclude Include="Day5.h">
+      <Filter>Header Files\Days</Filter>
+    </ClInclude>
+    <ClInclude Include="Day6.h">
+      <Filter>Header Files\Days</Filter>
+    </ClInclude>
+    <ClInclude Include="Grid.h">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Graph.h">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandLineParser.h">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="StringUtils.h">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector2.h">
+      <Filter>Header Files\Utils</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
