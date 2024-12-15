@@ -29,11 +29,16 @@ struct Vector2 {
 	bool operator==(const Vector2& other) const {
 		return x == other.x && y == other.y;
 	}
-
-	std::pair<int, int> toPair() const {
-		return { x, y };
-	}
 };
+
+namespace std {
+	template <> struct hash<Vector2>
+	{
+		size_t operator()(const Vector2& vec2) const {
+			return std::hash<int>()(vec2.x) ^ (std::hash<int>()(vec2.y) << 1);
+		}
+	};
+}
 
 enum Direction4 {
 	Up,

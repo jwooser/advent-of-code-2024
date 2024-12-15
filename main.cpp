@@ -13,6 +13,7 @@
 #include "Day6.h"
 #include "Day7.h"
 #include "Day8.h"
+#include "Day9.h"
 
 using Solution = std::function<void(std::istream&, std::ostream&)>;
 
@@ -43,6 +44,9 @@ int main(int argc, const char* argv[])
         // Day 8
         solveDay8Part1,
         solveDay8Part2,
+        // Day 9
+        solveDay9Part1,
+        solveDay9Part2,
     };
 
     CommandLineParser runEnv(argc, argv);

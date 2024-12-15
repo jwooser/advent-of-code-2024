@@ -1,7 +1,7 @@
 #include "Day8.h"
 
 #include "Grid.h"
-#include <set>
+#include <unordered_set>
 
 void solveDay8Part1(std::istream& input, std::ostream& output) {
 	auto grid = parseGrid(input);
@@ -11,14 +11,14 @@ void solveDay8Part1(std::istream& input, std::ostream& output) {
 			antennas[freq].push_back(loc);
 		}
 	});
-	std::set<std::pair<int, int>> antinodes;
+	std::unordered_set<Vector2> antinodes;
 	for (const auto& [freq, locs] : antennas) {
 		for (int i = 0; i < locs.size(); ++i) {
 			for (int j = 0; j < locs.size(); ++j) {
 				if (i == j) continue;
 				Vector2 antinodeLoc = locs[i] + (locs[i] - locs[j]);
 				if (grid.inBounds(antinodeLoc)) {
-					antinodes.insert(antinodeLoc.toPair());
+					antinodes.insert(antinodeLoc);
 				}
 			}
 		}
@@ -34,7 +34,7 @@ void solveDay8Part2(std::istream& input, std::ostream& output) {
 			antennas[freq].push_back(loc);
 		}
 		});
-	std::set<std::pair<int, int>> antinodes;
+	std::unordered_set<Vector2> antinodes;
 	for (const auto& [freq, locs] : antennas) {
 		for (int i = 0; i < locs.size(); ++i) {
 			for (int j = 0; j < locs.size(); ++j) {
@@ -42,7 +42,7 @@ void solveDay8Part2(std::istream& input, std::ostream& output) {
 				Vector2 curr = locs[i];
 				Vector2 slope = locs[i] - locs[j];
 				while (grid.inBounds(curr)) {
-					antinodes.insert(curr.toPair());
+					antinodes.insert(curr);
 					curr += slope;
 				}
 			}

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <string>s
+#include <string>
 #include <vector>
 #include <functional>
 #include <cstdlib>
@@ -12,6 +12,7 @@ inline bool tryStrToLong(const std::string& str, long& val, int base = 10) {
 	if (errno == ERANGE || endptr == str.c_str()) {
 		return false;
 	}
+	return true;
 }
 
 inline bool tryStrToLongLong(const std::string& str, long long& out, int base = 10) {
@@ -21,6 +22,7 @@ inline bool tryStrToLongLong(const std::string& str, long long& out, int base = 
 	if (errno == ERANGE || endptr != str.c_str() + str.size()) {
 		return false;
 	}
+	return true;
 }
 
 inline bool tryConcat(long long left, long long right, long long& out) {
@@ -41,6 +43,10 @@ inline long stolFunc(const std::string& str) {
 inline long long stollFunc(const std::string& str) {
 	return std::stoll(str);
 };
+
+inline int charToInt(char c) {
+	return c - '0';
+}
 
 template<typename T = std::string>
 std::vector<T> split(const std::string& string, 

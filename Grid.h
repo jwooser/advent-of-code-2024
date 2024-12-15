@@ -34,12 +34,12 @@ public:
 		return { &data[row * width], width };
 	}
 
-	T& at(Vector2 pos) {
-		return data[pos.y * width + pos.x];
+	T& at(Vector2 p) {
+		return data[pointToIndex(p)];
 	}
 
-	const T& at(Vector2 pos) const {
-		return data[pos.y * width + pos.x];
+	const T& at(Vector2 p) const {
+		return data[pointToIndex(p)];
 	}
 
 	std::span<T> span() { return data; }
@@ -50,8 +50,15 @@ public:
 
 	size_t getHeight() const { return height; }
 
-	bool inBounds(Vector2 pos) const {
-		return pos.x >= 0 && pos.x < width && pos.y >= 0 && pos.y < height;
+	size_t getSize() const { return data.size(); }
+
+	bool inBounds(Vector2 p) const {
+		return p.x >= 0 && p.x < width && p.y >= 0 && p.y < height;
+	}
+
+	auto getPoints() const {
+		return std::views::iota(0, getSize()) |
+			std::views::transform([this](int i) { return indexToPoint(i); });
 	}
 
 	std::optional<Vector2> find(const T & val) const {
@@ -60,33 +67,45 @@ public:
 			return std::nullopt;
 		}
 		size_t i = it - data.begin();
-		return Vector2{ int(i % width), int(i / width) };
+		return indexToPoint(i);
 	}
 
-	bool match(Vector2 pos, Vector2 dir, std::span<const T> elements) const {
+	auto findAll(const T& val) const {
+		return getPoints() | 
+			   std::views::filter([this](Vector2 p){ return at(p) == val; });
+	}
+
+	bool match(Vector2 p, Vector2 dir, std::span<const T> elements) const {
 		size_t elemIdx = 0;
-		while (inBounds(pos)) {
-			if (at(pos) != elements[elemIdx]) {
+		while (inBounds(p)) {
+			if (at(p) != elements[elemIdx]) {
 				return false;
 			}
 			++elemIdx;
 			if (elemIdx == elements.size()) {
 				return true;
 			}
-			pos += dir;
+			p += dir;
 		}
 		return false;
 	}
 
 	void forEachCell(std::function<void(Vector2, const T&)> fn) const {
-		for (int y = 0; y < getHeight(); ++y) {
-			for (int x = 0; x < getWidth(); ++x) {
-				fn({ x, y }, at({x, y}));
-			}
+		for (int i = 0; i < getSize(); ++i) {
+			fn(indexToPoint(i), data[i]);
 		}
 	}
 
 private:
+
+	Vector2 indexToPoint(size_t i) const {
+		return Vector2{ int(i % width), int(i / width) };
+	}
+
+	size_t pointToIndex(Vector2 p) const {
+		return p.y * width + p.x;
+	}
+
 	size_t width = 0;
 	size_t height = 0;
 	std::vector<T> data;

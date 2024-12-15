@@ -4,7 +4,7 @@
 #include <vector>
 #include <bitset>
 #include <string>
-#include <set>
+#include <unordered_set>
 #include "Vector2.h"
 #include "Grid.h"
 
@@ -93,17 +93,17 @@ void solveDay6Part2(std::istream& input, std::ostream& output) {
 	Vector2 pos = grid.find(Visited).value();
 	Guard guard{ pos, Up };
 
-	std::set<std::pair<int, int>> obs;
+	std::unordered_set<Vector2> obs;
 	do {
 		grid.at(guard.pos) = Visited;
 		Vector2 posInFront = guard.getPosInFront();
 		if (!grid.inBounds(posInFront)) {
 			continue;
 		}
-		if (grid.at(posInFront) == Unvisited && !obs.contains(posInFront.toPair())) {
+		if (grid.at(posInFront) == Unvisited && !obs.contains(posInFront)) {
 			grid.at(posInFront) = Blocked;
 			if (isPathLoop(grid, guard)) {
-				obs.insert(posInFront.toPair());
+				obs.insert(posInFront);
 			}
 			grid.at(posInFront) = Unvisited;
 		}
