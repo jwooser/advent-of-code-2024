@@ -14,6 +14,7 @@
 #include "Day7.h"
 #include "Day8.h"
 #include "Day9.h"
+#include "Day10.h"
 
 using Solution = std::function<void(std::istream&, std::ostream&)>;
 
@@ -47,13 +48,16 @@ int main(int argc, const char* argv[])
         // Day 9
         solveDay9Part1,
         solveDay9Part2,
+        // Day 10
+        solveDay10Part1,
+        solveDay10Part2,
     };
 
     CommandLineParser runEnv(argc, argv);
 
-    int day = std::stoi(std::string(runEnv.getCmdOptionOrDefaultVal("-d", "8")));
+    int day = std::stoi(std::string(runEnv.getCmdOptionOrDefaultVal("-d", "10")));
     int part = std::stoi(std::string(runEnv.getCmdOptionOrDefaultVal("-p", "2")));
-    auto file = runEnv.getCmdOptionOrDefaultVal("-f", "inputs\\day8-input.txt");
+    auto file = runEnv.getCmdOptionOrDefaultVal("-f", "inputs\\day10-input.txt");
     std::ifstream inFile {file.data()};
 
     int solutionId = 2 * (day - 1) + (part - 1);

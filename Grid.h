@@ -9,16 +9,30 @@
 #include <ranges>
 #include "Vector2.h"
 
+enum class Boolean {
+	True = true,
+	False = false
+};
+
 template <typename T>
 class Grid {
 public:
 	Grid() { };
 	
-	Grid(size_t w, size_t h) 
-		: width{ w }, height{ h } { data.resize(w * h); }
+	Grid(size_t w, size_t h)
+		: width{ w }, height{ h } {
+		data.resize(w * h);
+	}
 
-	Grid(size_t w, size_t h, std::vector<T> d) 
-		: width{ w }, height{ h }, data{ std::move(d) } { data.resize(w * h); }
+	Grid(size_t w, size_t h, const T& val)
+		: width{ w }, height{ h } {
+		data.resize(w * h, val);
+	}
+
+	Grid(size_t w, size_t h, std::vector<T> d)
+		: width{ w }, height{ h }, data{ std::move(d) } {
+		data.resize(w * h);
+	}
 
 	void resize(size_t w, size_t h) {
 		width = w;
@@ -57,8 +71,8 @@ public:
 	}
 
 	auto getPoints() const {
-		return std::views::iota(0, getSize()) |
-			std::views::transform([this](int i) { return indexToPoint(i); });
+		return std::views::iota(size_t{}, getSize()) |
+			   std::views::transform([this](size_t i) { return indexToPoint(i); });
 	}
 
 	std::optional<Vector2> find(const T & val) const {
@@ -72,7 +86,7 @@ public:
 
 	auto findAll(const T& val) const {
 		return getPoints() | 
-			   std::views::filter([this](Vector2 p){ return at(p) == val; });
+			   std::views::filter([this, &val](Vector2 p){ return at(p) == val; });
 	}
 
 	bool match(Vector2 p, Vector2 dir, std::span<const T> elements) const {
