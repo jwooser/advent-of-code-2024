@@ -4,8 +4,9 @@
 #include <vector>
 #include <functional>
 #include <cstdlib>
+#include <cstdint>
 
-inline bool tryStrToLong(const std::string& str, long& val, int base = 10) {
+inline bool tryStrToInt(const std::string& str, long& val, int base = 10) {
 	errno = 0;
 	char* endptr;
 	val = std::strtol(str.c_str(), &endptr, base);
@@ -15,7 +16,7 @@ inline bool tryStrToLong(const std::string& str, long& val, int base = 10) {
 	return true;
 }
 
-inline bool tryStrToLongLong(const std::string& str, long long& out, int base = 10) {
+inline bool tryStrToInt64(const std::string& str, int64_t& out, int base = 10) {
 	errno = 0;
 	char* endptr;
 	out = std::strtoll(str.c_str(), &endptr, base);
@@ -25,11 +26,11 @@ inline bool tryStrToLongLong(const std::string& str, long long& out, int base = 
 	return true;
 }
 
-inline bool tryConcat(long long left, long long right, long long& out) {
+inline bool tryConcat(int64_t left, int64_t right, int64_t& out) {
 	std::string leftStr = std::to_string(left);
 	std::string rightStr = std::to_string(right);
 	std::string concat = leftStr + rightStr;
-	return tryStrToLongLong(concat, out);
+	return tryStrToInt64(concat, out);
 }
 
 inline int stoiFunc(const std::string& str) {

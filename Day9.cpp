@@ -1,5 +1,6 @@
 #include "Day9.h"
 
+#include <cstdint>
 #include <string>
 #include <stack>
 #include <queue>
@@ -12,8 +13,8 @@ namespace {
 		int size;
 		int id;
 
-		long long checksum() {
-			return (long long(index) + index + size - 1) * size / 2 * id;
+		int64_t checksum() {
+			return (int64_t(index) + index + size - 1) * size / 2 * id;
 		}
 	};
 }
@@ -56,7 +57,7 @@ void solveDay9Part1(std::istream& input, std::ostream& output) {
 			defrag.push_back(file);
 		}
 	}
-	long long checksum = 0;
+	int64_t checksum = 0;
 	for (auto& block : defrag) {
 		checksum += block.checksum();
 	}
@@ -103,7 +104,7 @@ void solveDay9Part2(std::istream& input, std::ostream& output) {
 			defrag.push_back(file);
 		}
 	}
-	long long checksum = 0;
+	int64_t checksum = 0;
 	for (auto& block : defrag) {
 		checksum += block.checksum();
 	}
