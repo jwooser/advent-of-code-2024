@@ -40,6 +40,14 @@ namespace std {
 	};
 }
 
+inline Vector2 operator*(int scalar, const Vector2& vec) {
+	return { vec.x * scalar, vec.y * scalar };
+}
+
+inline Vector2 operator*(const Vector2& vec, int scalar) {
+	return { vec.x * scalar, vec.y * scalar };
+}
+
 enum Direction4 {
 	Up,
 	Right,
@@ -96,4 +104,16 @@ inline Vector2 dirToVec2(Direction8 dir) {
 	default:
 		return {};
 	}
+}
+
+inline Direction8 rotate45(Direction8 dir) {
+	return Direction8((dir + 1) % 8);
+}
+
+inline Direction8 rotate90(Direction8 dir) {
+	return Direction8((dir + 2) % 8);
+}
+
+inline Direction4 rotate90(Direction4 dir) {
+	return Direction4((dir + 1) % 4);
 }

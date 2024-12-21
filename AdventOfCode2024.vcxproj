@@ -145,6 +145,7 @@
     <ClCompile Include="Day9.cpp" />
     <ClCompile Include="Day10.cpp" />
     <ClCompile Include="Day11.cpp" />
+    <ClCompile Include="Day12.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Day1.h" />
@@ -160,6 +161,7 @@
     <ClInclude Include="Day9.h" />
     <ClInclude Include="Day10.h" />
     <ClInclude Include="Day11.h" />
+    <ClInclude Include="Day12.h" />
     <ClInclude Include="StringUtils.h" />
     <ClInclude Include="Vector2.h" />
     <ClInclude Include="CommandLineParser.h" />

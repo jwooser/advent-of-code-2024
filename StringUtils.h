@@ -37,11 +37,7 @@ inline int stoiFunc(const std::string& str) {
 	return std::stoi(str);
 };
 
-inline long stolFunc(const std::string& str) {
-	return std::stol(str);
-};
-
-inline long long stollFunc(const std::string& str) {
+inline int64_t stollFunc(const std::string& str) {
 	return std::stoll(str);
 };
 
