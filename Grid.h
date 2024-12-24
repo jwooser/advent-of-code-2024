@@ -9,11 +9,6 @@
 #include <ranges>
 #include "Vector2.h"
 
-enum class Boolean {
-	True = true,
-	False = false
-};
-
 template <typename T>
 class Grid {
 public:

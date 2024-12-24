@@ -61,3 +61,9 @@ std::vector<T> split(const std::string& string,
 		curr = next + delim.size();
 	}
 }
+
+inline int parseNumber(const std::string& string, const std::string& descriptor) {
+	size_t idx = string.find(descriptor);
+	idx += descriptor.size();
+	return std::stoi(string.substr(idx));
+}

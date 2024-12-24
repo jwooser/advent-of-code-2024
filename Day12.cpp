@@ -1,6 +1,7 @@
 #include "Day12.h"
 #include "Grid.h"
 #include <bitset>
+#include "Directions.h"
 
 namespace {
 	struct State {

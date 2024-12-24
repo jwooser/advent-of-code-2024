@@ -132,6 +132,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Day13.cpp" />
     <ClCompile Include="Day2.cpp" />
     <ClCompile Include="Day3.cpp" />
     <ClCompile Include="Day4.cpp" />
@@ -146,13 +147,16 @@
     <ClCompile Include="Day10.cpp" />
     <ClCompile Include="Day11.cpp" />
     <ClCompile Include="Day12.cpp" />
+    <ClCompile Include="MathUtils.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Day1.h" />
+    <ClInclude Include="Day13.h" />
     <ClInclude Include="Day2.h" />
     <ClInclude Include="Day6.h" />
     <ClInclude Include="Day3.h" />
     <ClInclude Include="Day4.h" />
+    <ClInclude Include="Directions.h" />
     <ClInclude Include="Grid.h" />
     <ClInclude Include="Day5.h" />
     <ClInclude Include="Graph.h" />

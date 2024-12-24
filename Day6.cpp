@@ -7,6 +7,7 @@
 #include <unordered_set>
 #include "Vector2.h"
 #include "Grid.h"
+#include "Directions.h"
 
 namespace {
 	enum State {
@@ -25,7 +26,7 @@ namespace {
 				return false; // advanced out of grid
 			}
 			if (grid.at(posInFront) == Blocked) {
-				dir = Direction4((dir + 1) % 4); // turn 90 deg
+				dir = rotate90(dir); // turn 90 deg
 			}
 			else {
 				pos = posInFront; // move forward

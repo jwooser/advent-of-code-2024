@@ -4,6 +4,7 @@
 #include "Vector2.h"
 #include "StringUtils.h"
 #include "Grid.h"
+#include "Directions.h"
 
 namespace {
 	void dfsTrailScore(const Grid<int>& map,
@@ -18,7 +19,7 @@ namespace {
 		Direction4 dir = Direction4::Up;
 		for (int i = 0; i < 4; ++i) {
 			Vector2 nextPos = pos + dirToVec2(dir);
-			dir = Direction4((dir + 1) % 4);
+			dir = rotate90(dir);
 			if (map.inBounds(nextPos) && 
 				!seen.at(nextPos) && 
 				map.at(nextPos) == currHeight + 1) {
@@ -52,7 +53,7 @@ namespace {
 		Direction4 dir = Direction4::Up;
 		for (int i = 0; i < 4; ++i) {
 			Vector2 nextPos = pos + dirToVec2(dir);
-			dir = Direction4((dir + 1) % 4);
+			dir = rotate90(dir);
 			if (map.inBounds(nextPos) &&
 				map.at(nextPos) == currHeight + 1) {
 				paths += dfsTrailRating(map, nextPos, memo);

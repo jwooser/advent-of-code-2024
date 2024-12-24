@@ -4,6 +4,7 @@
 #include <array>
 #include "Vector2.h"
 #include "Grid.h"
+#include "Directions.h"
 
 void solveDay4Part1(std::istream& input, std::ostream& output) {
 	auto grid = parseGrid(input);
