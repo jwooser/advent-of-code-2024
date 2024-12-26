@@ -40,3 +40,7 @@ inline std::optional<LinearDiophantineSolution> solveLinearDiophantineEquation(i
 	int64_t k = c / d;
 	return LinearDiophantineSolution{ s * k, t * k, a / d, b / d};
 }
+
+inline int intDivCeil(int x, int y) {
+	return x / y + (x % y != 0);
+}

@@ -43,6 +43,16 @@ public:
 		return { &data[row * width], width };
 	}
 
+	auto rows() {
+		return std::views::iota(size_t{}, getHeight()) |
+			std::views::transform([this](size_t i) { return this->operator[](i); });
+	}
+
+	auto rows() const {
+		return std::views::iota(size_t{}, getHeight()) |
+			std::views::transform([this](size_t i) { return this->operator[](i);  });
+	}
+
 	T& at(Vector2 p) {
 		return data[pointToIndex(p)];
 	}
@@ -67,7 +77,7 @@ public:
 
 	auto getPoints() const {
 		return std::views::iota(size_t{}, getSize()) |
-			   std::views::transform([this](size_t i) { return indexToPoint(i); });
+			   std::views::transform([this](size_t i){ return indexToPoint(i); });
 	}
 
 	std::optional<Vector2> find(const T & val) const {
@@ -121,7 +131,7 @@ private:
 };
 
 template <typename T = char>
-Grid<T> parseGrid(std::istream & input, std::function<T(char)> proj = std::identity{}) {
+Grid<T> parseGrid(std::istream& input, std::function<T(char)> proj = std::identity{}) {
 	std::vector<T> data;
 	std::string line;
 	size_t height = 0;
@@ -136,4 +146,13 @@ Grid<T> parseGrid(std::istream & input, std::function<T(char)> proj = std::ident
 		return { width, height, std::move(data) };
 	}
 	return {};
+}
+
+inline void printGrid(const Grid<char> grid, std::ostream& output) {
+	for (auto row : grid.rows()) {
+		for (char cell : row) {
+			output << cell;
+		}
+		output << '\n';
+	}
 }

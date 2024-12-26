@@ -71,6 +71,9 @@
     <ClCompile Include="MathUtils.h">
       <Filter>Header Files\Utils</Filter>
     </ClCompile>
+    <ClCompile Include="Day14.cpp">
+      <Filter>Source Files\Days</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Day1.h">
@@ -129,6 +132,9 @@
     </ClInclude>
     <ClInclude Include="Directions.h">
       <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Day14.h">
+      <Filter>Header Files\Days</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

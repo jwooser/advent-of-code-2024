@@ -62,8 +62,19 @@ std::vector<T> split(const std::string& string,
 	}
 }
 
-inline int parseNumber(const std::string& string, const std::string& descriptor) {
-	size_t idx = string.find(descriptor);
-	idx += descriptor.size();
-	return std::stoi(string.substr(idx));
+template<typename T = std::string>
+T parseDescriptor(const std::string& string,
+				  const std::string& descriptor,
+				  std::function<T(const std::string&)> projection = std::identity{},
+				  const std::string& delim = " ") {
+	size_t idx = string.find(descriptor) + descriptor.size();
+	size_t end = string.find(delim, idx);
+	std::string val = string.substr(idx, end - idx);
+	return projection(val);
+}
+
+inline int parseNumber(const std::string& string,
+					   const std::string & descriptor,
+		               const std::string& delim = " ") {
+	return parseDescriptor<int>(string, descriptor, stoiFunc, delim);
 }
