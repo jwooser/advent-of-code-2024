@@ -1,12 +1,12 @@
 #pragma once
 
 #include <istream>
-#include <functional>
 #include <optional>
 #include <span>
 #include <string>
 #include <vector>
 #include <ranges>
+#include <functional>
 #include "Vector2.h"
 
 template <typename T>
@@ -130,12 +130,13 @@ private:
 	std::vector<T> data;
 };
 
-template <typename T = char>
-Grid<T> parseGrid(std::istream& input, std::function<T(char)> proj = std::identity{}) {
+template <typename T = char, typename Proj = std::identity>
+Grid<T> parseGrid(std::istream& input, Proj proj = {}) {
 	std::vector<T> data;
 	std::string line;
 	size_t height = 0;
 	while (getline(input, line)) {
+		if (line == "") break;
 		++height;
 		for (char c : line) {
 			data.push_back(proj(c));
@@ -148,10 +149,13 @@ Grid<T> parseGrid(std::istream& input, std::function<T(char)> proj = std::identi
 	return {};
 }
 
-inline void printGrid(const Grid<char> grid, std::ostream& output) {
+template <typename T = char, typename Proj = std::identity>
+void printGrid(const Grid<T>& grid, 
+			   std::ostream& output, 
+			   Proj proj = {}) {
 	for (auto row : grid.rows()) {
-		for (char cell : row) {
-			output << cell;
+		for (const T& cell : row) {
+			output << proj(cell);
 		}
 		output << '\n';
 	}

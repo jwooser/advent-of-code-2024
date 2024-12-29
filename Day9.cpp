@@ -5,6 +5,7 @@
 #include <stack>
 #include <queue>
 #include <ranges>
+#include <list>
 #include "StringUtils.h"
 
 namespace {

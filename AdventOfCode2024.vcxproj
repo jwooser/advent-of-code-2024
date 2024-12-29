@@ -149,11 +149,13 @@
     <ClCompile Include="Day11.cpp" />
     <ClCompile Include="Day12.cpp" />
     <ClCompile Include="MathUtils.h" />
+    <ClCompile Include="Day15.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Day1.h" />
     <ClInclude Include="Day13.h" />
     <ClInclude Include="Day14.h" />
+    <ClInclude Include="Day15.h" />
     <ClInclude Include="Day2.h" />
     <ClInclude Include="Day6.h" />
     <ClInclude Include="Day3.h" />
@@ -168,6 +170,7 @@
     <ClInclude Include="Day10.h" />
     <ClInclude Include="Day11.h" />
     <ClInclude Include="Day12.h" />
+    <ClInclude Include="Utils.h" />
     <ClInclude Include="StringUtils.h" />
     <ClInclude Include="Vector2.h" />
     <ClInclude Include="CommandLineParser.h" />

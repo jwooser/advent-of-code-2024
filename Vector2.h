@@ -3,7 +3,10 @@
 #include <utility>
 #include <type_traits>
 
-template<typename T = int>
+template <typename T>
+concept Arithmetic = std::integral<T> || std::floating_point<T>;
+
+template<Arithmetic T = int>
 struct Vector2Base {
 	T x;
 	T y;
@@ -33,31 +36,28 @@ struct Vector2Base {
 	}
 };
 
-template <typename T>
-concept Arithmetic = std::integral<T> || std::floating_point<T>;
-
-template<typename T, Arithmetic S>
+template<Arithmetic T, Arithmetic S>
 Vector2Base<T> operator*(S scalar, const Vector2Base<T>& vec) {
 	return { vec.x * scalar, vec.y * scalar };
 }
 
-template<typename T, Arithmetic S>
+template<Arithmetic T, Arithmetic S>
 inline Vector2Base<T> operator*(const Vector2Base<T>& vec, S scalar) {
 	return { vec.x * scalar, vec.y * scalar };
 }
 
-template<typename T, Arithmetic S>
+template<Arithmetic T, Arithmetic S>
 inline Vector2Base<T> operator/(const Vector2Base<T>& vec, S scalar) {
 	return { vec.x / scalar, vec.y / scalar };
 }
 
-template<typename T, Arithmetic S>
+template<Arithmetic T, Arithmetic S>
 inline Vector2Base<T> operator%(const Vector2Base<T>& vec, S scalar) {
 	return { vec.x / scalar, vec.y / scalar };
 }
 
 namespace std {
-	template<typename T> struct hash<Vector2Base<T>>
+	template<Arithmetic T> struct hash<Vector2Base<T>>
 	{
 		size_t operator()(const Vector2Base<T>& vec2) const {
 			return std::hash<T>()(vec2.x) ^ (std::hash<T>()(vec2.y) << 1);

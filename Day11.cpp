@@ -1,6 +1,7 @@
 #include "Day11.h"
 
 #include <cstdint>
+#include <unordered_map>
 #include <string>
 #include <ranges>
 #include "StringUtils.h"

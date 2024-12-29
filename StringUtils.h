@@ -2,7 +2,6 @@
 
 #include <string>
 #include <vector>
-#include <functional>
 #include <cstdlib>
 #include <cstdint>
 
@@ -45,32 +44,32 @@ inline int charToInt(char c) {
 	return c - '0';
 }
 
-template<typename T = std::string>
+template<typename T = std::string, typename Projection = std::identity>
 std::vector<T> split(const std::string& string, 
 					 const std::string& delim, 
-					 std::function<T(const std::string&)> projection = std::identity{}) {
+					 Projection proj = {}) {
 	std::vector<T> result;
 	size_t curr = 0;
 	while (true) {
 		size_t next = string.find(delim, curr);
 		if (next == std::string::npos) {
-			result.push_back(projection(string.substr(curr)));
+			result.push_back(proj(string.substr(curr)));
 			return result;
 		}
-		result.push_back(projection(string.substr(curr, next - curr)));
+		result.push_back(proj(string.substr(curr, next - curr)));
 		curr = next + delim.size();
 	}
 }
 
-template<typename T = std::string>
+template<typename T = std::string, typename Projection = std::identity>
 T parseDescriptor(const std::string& string,
 				  const std::string& descriptor,
-				  std::function<T(const std::string&)> projection = std::identity{},
+				  Projection proj = {},
 				  const std::string& delim = " ") {
 	size_t idx = string.find(descriptor) + descriptor.size();
 	size_t end = string.find(delim, idx);
 	std::string val = string.substr(idx, end - idx);
-	return projection(val);
+	return proj(val);
 }
 
 inline int parseNumber(const std::string& string,
