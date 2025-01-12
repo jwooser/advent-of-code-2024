@@ -7,6 +7,7 @@
 #include "Directions.h"
 #include "Grid.h"
 #include "Utils.h"
+#include "EnumUtils.h"
 
 namespace {
 	enum Tile {
@@ -16,50 +17,7 @@ namespace {
 		BigBoxL,
 		BigBoxR,
 		Robot
-	};
-
-	char tileToChar(Tile tile) {
-		const std::array<char, 6> chars{ '.', '#', 'O', '[', ']', '@' };
-		return chars[tile];
-	}
-
-	Tile tileProj(char c) {
-		switch (c) {
-		case '.':
-			return Empty;
-		case '#':
-			return Wall;
-		case 'O':
-			return Box;
-		case '[':
-			return BigBoxL;
-		case ']':
-			return BigBoxR;
-		case '@':
-			return Robot;
-		default:
-			throw std::invalid_argument("Character must be on of: .#O@");
-		}
-	}
-
-	Direction4 dirProj(char c) {
-		switch (c) {
-			case '^':
-			case 'w':
-				return Up;
-			case '>':
-			case 'd':
-				return Right;
-			case 'v':
-			case 's':
-				return Down;
-			case '<':
-			case 'a':
-				return Left;
-			default:
-				throw std::invalid_argument("Character must be on of: ^>v<");
-		}
-	}
+	};	
 
 	struct RobotController {
 		Vector2 robotPos;
@@ -68,7 +26,7 @@ namespace {
 		void advanceRobot(Direction4 d) {
 			if (canPushTile(robotPos, d)) {
 				pushTile(robotPos, d);
-				robotPos += dirToVec2(d);
+				robotPos += vec2(d);
 			}
 		}
 
@@ -89,12 +47,12 @@ namespace {
 				ScopedRevert tileRev(tile); // backtracking RAII
 				Direction4 otherSide = (tile == BigBoxL) ? Right : Left;
 				tile = Empty;
-				if (!canPushTile(pos + dirToVec2(otherSide), d)) {
+				if (!canPushTile(pos + vec2(otherSide), d)) {
 					return false;
 				}
 			}
 			// must be able to push the tile in front
-			return canPushTile(pos + dirToVec2(d), d);
+			return canPushTile(pos + vec2(d), d);
 		}
 
 		void pushTile(Vector2 pos, Direction4 d) {
@@ -106,9 +64,9 @@ namespace {
 				ScopedRevert tileRev(tile);
 				Direction4 otherSide = (tile == BigBoxL) ? Right : Left;
 				tile = Empty; // prevent infinite recursion between sides
-				pushTile(pos + dirToVec2(otherSide), d);
+				pushTile(pos + vec2(otherSide), d);
 			}
-			Vector2 nextPos = pos + dirToVec2(d);
+			Vector2 nextPos = pos + vec2(d);
 			pushTile(nextPos, d);
 			Tile& nextTile = map->at(nextPos);
 			if (nextTile == Empty) {
@@ -119,17 +77,17 @@ namespace {
 
 	void userInputLoop(RobotController& rc) {
 		while (true) {
-			printGrid(*rc.map, std::cout, tileToChar);
+			printGrid(*rc.map, std::cout, enumToChar<Tile ,'.', '#', 'O', '[', ']', '@'>);
 			char in;
 			std::cin >> in;
 			if (in == 'q') return;
-			rc.advanceRobot(dirProj(in));
+			rc.advanceRobot(charToEnum<Direction4, 'w', 'd', 's', 'a'>(in));
 		}
 	}
 }
 
 void solveDay15Part1(std::istream& input, std::ostream& output) {
-	auto map = parseGrid<Tile>(input, tileProj);
+	auto map = parseGrid<Tile>(input, charToEnum<Tile, '.', '#', 'O', '[', ']', '@'>);
 	Vector2 robotPos = map.find(Robot).value();
 	RobotController rc{robotPos, &map};
 
@@ -139,7 +97,7 @@ void solveDay15Part1(std::istream& input, std::ostream& output) {
 			userInputLoop(rc);
 		}
 		for (char c : line) {
-			rc.advanceRobot(dirProj(c));
+			rc.advanceRobot(charToEnum<Direction4, '^', '>', 'v', '<'>(c));
 		}
 	}
 	int gpsSum = 0;

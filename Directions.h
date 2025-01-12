@@ -9,7 +9,7 @@ enum Direction4 {
 	Left
 };
 
-inline Vector2 dirToVec2(Direction4 dir) {
+inline Vector2 vec2(Direction4 dir) {
 	switch (dir)
 	{
 	case Up:
@@ -29,6 +29,10 @@ inline Direction4 rotate90(Direction4 dir) {
 	return Direction4((dir + 1) % 4);
 }
 
+inline Direction4 rotate90x(Direction4 dir, int x = 1) {
+	return Direction4((((dir + x) % 4) + 4) % 4);
+}
+
 enum Direction8 {
 	North,
 	NorthEast,
@@ -40,7 +44,7 @@ enum Direction8 {
 	NorthWest
 };
 
-inline Vector2 dirToVec2(Direction8 dir) {
+inline Vector2 vec2(Direction8 dir) {
 	switch (dir)
 	{
 	case North:

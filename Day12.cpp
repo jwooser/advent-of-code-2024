@@ -15,7 +15,7 @@ namespace {
 		plot.at(pos).seen = true;
 		Direction4 dir = Direction4::Up;
 		for (int i = 0; i < 4; ++i) {
-			Vector2 nextPos = pos + dirToVec2(dir);
+			Vector2 nextPos = pos + vec2(dir);
 			dir = rotate90(dir);
 			if (plot.inBounds(nextPos)) {
 				const State& nextState = plot.at(nextPos);
@@ -38,7 +38,7 @@ namespace {
 		plot.at(pos).seen = true;
 		Direction4 dir = Direction4::Up;
 		for (int i = 0; i < 4; ++i) {
-			Vector2 nextPos = pos + dirToVec2(dir);
+			Vector2 nextPos = pos + vec2(dir);
 			dir = rotate90(dir);
 			if (plot.inBounds(nextPos)) {
 				const State& nextState = plot.at(nextPos);
@@ -52,11 +52,11 @@ namespace {
 		for (int i = 0; i < 4; ++i) {
 			Direction8 d = dir8;
 			dir8 = rotate90(dir8);
-			Vector2 frontPos = pos + dirToVec2(d);
+			Vector2 frontPos = pos + vec2(d);
 			d = rotate45(d);
-			Vector2 diagPos = pos + dirToVec2(d);
+			Vector2 diagPos = pos + vec2(d);
 			d = rotate45(d);
-			Vector2 rightPos = pos + dirToVec2(d);
+			Vector2 rightPos = pos + vec2(d);
 			bool front = plot.inBounds(frontPos) && plot.at(frontPos).type == type;
 			bool diag = plot.inBounds(diagPos) && plot.at(diagPos).type == type;
 			bool right = plot.inBounds(rightPos) && plot.at(rightPos).type == type;

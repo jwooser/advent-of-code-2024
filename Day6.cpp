@@ -8,6 +8,7 @@
 #include "Vector2.h"
 #include "Grid.h"
 #include "Directions.h"
+#include "EnumUtils.h"
 
 namespace {
 	enum State {
@@ -35,7 +36,7 @@ namespace {
 		}
 
 		Vector2 getPosInFront() const {
-			return pos + dirToVec2(dir);
+			return pos + vec2(dir);
 		}
 
 		bool operator==(const Guard& other) const {
@@ -58,22 +59,10 @@ namespace {
 			}
 		}
 	}
-
-	State stateProjection(char c) {
-		if (c == '.') {
-			return Unvisited;
-		}
-		else if (c == '#') {
-			return Blocked;
-		}
-		else {
-			return Visited;
-		}
-	}
 }
 
 void solveDay6Part1(std::istream& input, std::ostream& output) {
-	auto grid = parseGrid<State>(input, stateProjection);
+	auto grid = parseGrid<State>(input, charToEnum<State, '.', '^', '#'>);
 
 	Vector2 pos = grid.find(Visited).value();
 	Guard guard{ pos, Up };
@@ -90,7 +79,7 @@ void solveDay6Part1(std::istream& input, std::ostream& output) {
 }
 
 void solveDay6Part2(std::istream& input, std::ostream& output) {
-	auto grid = parseGrid<State>(input, stateProjection);
+	auto grid = parseGrid<State>(input, charToEnum<State, '.', '^', '#'>);
 	Vector2 pos = grid.find(Visited).value();
 	Guard guard{ pos, Up };
 

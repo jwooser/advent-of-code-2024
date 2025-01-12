@@ -15,41 +15,41 @@ public:
 	Grid() { };
 	
 	Grid(size_t w, size_t h)
-		: width{ w }, height{ h } {
+		: w{ w }, h{ h } {
 		data.resize(w * h);
 	}
 
 	Grid(size_t w, size_t h, const T& val)
-		: width{ w }, height{ h } {
+		: w{ w }, h{ h } {
 		data.resize(w * h, val);
 	}
 
 	Grid(size_t w, size_t h, std::vector<T> d)
-		: width{ w }, height{ h }, data{ std::move(d) } {
+		: w{ w }, h{ h }, data{ std::move(d) } {
 		data.resize(w * h);
 	}
 
 	void resize(size_t w, size_t h) {
-		width = w;
-		height = h;
+		w = w;
+		h = h;
 		data.resize(w * h);
 	}
 
 	std::span<T> operator[](size_t row) {
-		return { &data[row * width], width };
+		return { &data[row * w], w };
 	}
 
 	std::span<const T> operator[](size_t row) const {
-		return { &data[row * width], width };
+		return { &data[row * w], w };
 	}
 
 	auto rows() {
-		return std::views::iota(size_t{}, getHeight()) |
+		return std::views::iota(size_t{}, height()) |
 			std::views::transform([this](size_t i) { return this->operator[](i); });
 	}
 
 	auto rows() const {
-		return std::views::iota(size_t{}, getHeight()) |
+		return std::views::iota(size_t{}, height()) |
 			std::views::transform([this](size_t i) { return this->operator[](i);  });
 	}
 
@@ -65,18 +65,18 @@ public:
 	
 	std::span<const T> span() const { return data; }
 
-	size_t getWidth() const { return width; }
+	size_t width() const { return w; }
 
-	size_t getHeight() const { return height; }
+	size_t height() const { return h; }
 
-	size_t getSize() const { return data.size(); }
+	size_t size() const { return data.size(); }
 
 	bool inBounds(Vector2 p) const {
-		return p.x >= 0 && p.x < width && p.y >= 0 && p.y < height;
+		return p.x >= 0 && p.x < w && p.y >= 0 && p.y < h;
 	}
 
-	auto getPoints() const {
-		return std::views::iota(size_t{}, getSize()) |
+	auto points() const {
+		return std::views::iota(size_t{}, size()) |
 			   std::views::transform([this](size_t i){ return indexToPoint(i); });
 	}
 
@@ -90,7 +90,7 @@ public:
 	}
 
 	auto findAll(const T& val) const {
-		return getPoints() | 
+		return points() | 
 			   std::views::filter([this, &val](Vector2 p){ return at(p) == val; });
 	}
 
@@ -110,23 +110,23 @@ public:
 	}
 
 	void forEachCell(std::function<void(Vector2, const T&)> fn) const {
-		for (int i = 0; i < getSize(); ++i) {
+		for (int i = 0; i < size(); ++i) {
 			fn(indexToPoint(i), data[i]);
 		}
 	}
 
-private:
-
 	Vector2 indexToPoint(size_t i) const {
-		return Vector2{ int(i % width), int(i / width) };
+		return Vector2{ int(i % w), int(i / w) };
 	}
 
 	size_t pointToIndex(Vector2 p) const {
-		return p.y * width + p.x;
+		return p.y * w + p.x;
 	}
 
-	size_t width = 0;
-	size_t height = 0;
+private:
+
+	size_t w = 0;
+	size_t h = 0;
 	std::vector<T> data;
 };
 

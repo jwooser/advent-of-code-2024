@@ -18,7 +18,7 @@ namespace {
 		}
 		Direction4 dir = Direction4::Up;
 		for (int i = 0; i < 4; ++i) {
-			Vector2 nextPos = pos + dirToVec2(dir);
+			Vector2 nextPos = pos + vec2(dir);
 			dir = rotate90(dir);
 			if (map.inBounds(nextPos) && 
 				!seen.at(nextPos) && 
@@ -34,7 +34,7 @@ namespace {
 		// use char instead of bool because we can't make a Grid of
 		// bools due to the template specialization of the underlying
 		// std::vector - we'd need to specialize Grid to bool as well
-		Grid<char> seen(map.getWidth(), map.getHeight());
+		Grid<char> seen(map.width(), map.height());
 		dfsTrailScore(map, trailhead, seen, reachable);
 		return int(reachable.size());
 	}
@@ -52,7 +52,7 @@ namespace {
 		int paths = 0;
 		Direction4 dir = Direction4::Up;
 		for (int i = 0; i < 4; ++i) {
-			Vector2 nextPos = pos + dirToVec2(dir);
+			Vector2 nextPos = pos + vec2(dir);
 			dir = rotate90(dir);
 			if (map.inBounds(nextPos) &&
 				map.at(nextPos) == currHeight + 1) {
@@ -64,7 +64,7 @@ namespace {
 	}
 
 	int getTrailheadRating(const Grid<int>& map, Vector2 trailhead) {
-		Grid<int> memo(map.getWidth(), map.getHeight(), -1);
+		Grid<int> memo(map.width(), map.height(), -1);
 		return dfsTrailRating(map, trailhead, memo);
 	}
 }

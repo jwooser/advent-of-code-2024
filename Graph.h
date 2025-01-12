@@ -43,8 +43,8 @@ private:
 	std::unordered_map<T, std::vector<T>, Hash> graph;
 };
 
-template<typename T>
-AdjList<T> inducedSubgraph(const AdjList<T>& graph, const std::unordered_set<T>& vertices) {
+template<typename T, typename Hash = std::hash<T>>
+AdjList<T> inducedSubgraph(const AdjList<T, Hash>& graph, const std::unordered_set<T>& vertices) {
 	AdjList<T> subgraph;
 	for (const auto& u : vertices) {
 		for (const auto v : graph.getSuccessors(u)) {
@@ -56,8 +56,8 @@ AdjList<T> inducedSubgraph(const AdjList<T>& graph, const std::unordered_set<T>&
 	return subgraph;
 }
 
-template<typename T>
-std::vector<T> topologicalOrdering(const AdjList<T>& graph) {
+template<typename T, typename Hash = std::hash<T>>
+std::vector<T> topologicalOrdering(const AdjList<T, Hash>& graph) {
 	std::unordered_map<T, int> inEdges;
 	for (const auto& u : graph.getVertices()) {
 		for (const auto& v : graph.getSuccessors(u)) {
@@ -84,4 +84,21 @@ std::vector<T> topologicalOrdering(const AdjList<T>& graph) {
 		}
 	}
 	return result;
+}
+
+template<typename T, typename Hash = std::hash<T>>
+std::unordered_set<T, Hash> dfsFromVertex(const AdjList<T, Hash>& graph, const T& v) {
+	std::unordered_set<T, Hash> seen;
+	auto dfs = [&](const T& v, auto _dfs) -> void {
+		seen.insert(v);
+		for (const auto& u : graph.getSuccessors(v)) {
+			if (!seen.contains(u)) {
+				_dfs(u, _dfs);
+			}
+		}
+	};
+	if (graph.hasVertex(v)) {
+		dfs(v, dfs);
+	}
+	return seen;
 }
